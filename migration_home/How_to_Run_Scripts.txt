@@ -1,0 +1,29 @@
+How to set up your environment and run the scripts
+
+Account Replication will handle replication of users, roles, warehouses, resource monitors and privileges for replicated databases.
+Database Replication will handle replication of databases, schemas and objects within it
+
+To replicate Stages, Pipes, Streams, Tasks and/or Shares, Please follow the steps below:
+
+Step 0: (as needed) Edit code in lines 291, 292 of 'run_nonreplicated_objects.py' to include only the NRO object types desired for DDL and grants
+
+-- ALL OBJECT TYPES SHOW HERE, SO MANUALLY REMOVE / CHANGE AS NEEDED
+    object_dict = {'STAGE':[],'STREAM':[],'TASK':[],'SHARE':[],'PIPE':[]}
+    grants_dict = {'STAGE':[],'STREAM':[],'TASK':[],'SHARE':[],'PIPE':[]}
+
+Step 1: Edit dbfile to list all the database names from which to replicate stages, pipes, streams and tasks
+-- Contents of sample dbfile: 
+        FIRST_DB
+        SECOND_DB
+        THIRD_DB
+
+Step 2: Edit the env_xxx.sh (Unix) or env_xxx.cmd (Windows) with source and target account credentials, and role name that has SYSADMIN and Manage Grants privileges at the account level.
+You could use ACCOUNTADMIN as the role if you have ACCOUNTADMIN privilege.
+
+Step 3: Run generate_nonreplicated_objects_ddl.sh to generate ddl files from source account
+
+Step 4: Promote the target (also known as replica or secondary) databases to primary. Replica databases are read-only.
+
+Step 5: Run create_nonreplicated_objects.sh to create objects in target account 
+
+        

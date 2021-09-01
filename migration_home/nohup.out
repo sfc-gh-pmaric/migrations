@@ -1,0 +1,3 @@
+.
+source account: aws_cas2
+target account: servicenow.west-us-2.azure
